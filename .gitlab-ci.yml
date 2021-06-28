@@ -1,0 +1,81 @@
+stages:
+  - pull
+  - build
+  - lint
+  - push
+  - cleanup
+  - deploy
+
+# log into the registry
+before_script:
+  - docker login -u "gitlab-ci-token" -p "$CI_BUILD_TOKEN" "$CI_REGISTRY"
+
+pull:
+  stage: pull
+  only:
+    - master
+    - dev
+  # for the first time we create a pull request while the registry is still empty
+  allow_failure: true
+  script:
+    - docker pull "$CI_REGISTRY_IMAGE"
+
+build:
+  stage: build
+  only:
+    - master
+    - dev
+  script:
+    - docker build --tag="$CI_PIPELINE_ID":"$CI_COMMIT_REF_NAME" --cache-from="$CI_REGISTRY_IMAGE":latest .
+
+lint:
+  stage: lint
+  allow_failure: true
+  only:
+    - dev
+    - master
+  script:
+    - export CI_PIPELINE_ID=$CI_PIPELINE_ID
+    - export CI_BUILD_REF_NAME=$CI_COMMIT_REF_NAME
+    - docker-compose -p "$CI_PIPELINE_ID" -f docker-compose.ci.yml run app flake8 .
+
+
+# for branches
+push latest:
+  stage: push
+  only:
+    - dev
+  script:
+    # rename the image so that it can be pushed into registry - docker tag changes the name to the registry name
+    - docker tag "$CI_PIPELINE_ID":"$CI_COMMIT_REF_NAME" "$CI_REGISTRY_IMAGE":latest
+    - docker push "$CI_REGISTRY_IMAGE":latest
+
+# for master
+push:
+  stage: push
+  only:
+    - master
+  script:
+    - docker tag "$CI_PIPELINE_ID":"$CI_COMMIT_REF_NAME" "$CI_REGISTRY_IMAGE":master
+    - docker push "$CI_REGISTRY_IMAGE":master
+
+cleanup:
+  stage: cleanup
+  only:
+    - master
+    - dev
+  when: always
+  script:
+    - docker rmi -f "$CI_PIPELINE_ID":"$CI_COMMIT_REF_NAME"
+    - docker-compose -p "$CI_PIPELINE_ID" -f docker-compose.ci.yml down --remove-orphans
+
+# start the image from the most recent push - control it so that it only deploys when merged into master
+deploy:
+  stage: deploy
+  only:
+    - master
+  when: manual
+  script:
+    # -f tells docker to use docker compose deploy file
+    - docker-compose -f docker-compose.deploy.yml down
+    - docker-compose -f docker-compose.deploy.yml up -d

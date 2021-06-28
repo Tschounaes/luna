@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    env_file:
+      - ./envs/dev.env
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+
+  backend:
+    image: motion-final:latest
+    env_file:
+      - ./envs/dev.env
+    command: "sh /scripts/dev.sh"
+    ports:
+      - '8000:8000'
+#      - '4777:22'
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/backend
+
+volumes:
+  postgres_volume:
