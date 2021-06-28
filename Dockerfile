@@ -13,7 +13,7 @@ RUN mkdir -p /backend
 #frontend
 RUN mkdir -p /frontend
 RUN mkdir -p /frontend_tmp
-RUN mkdir -p /scripts
+RUN mkdir -p /script
 RUN mkdir -p /static-files
 
 COPY ./backend /backend
@@ -22,8 +22,8 @@ ENV PATH /opt/conda/envs/luna/bin:$PATH
 
 RUN echo "source activate luna" >~/.bashrc
 
-COPY ./scripts /scripts
-RUN chmod +x ./scripts*
+COPY ./script /script
+RUN chmod +x ./script*
 
 WORKDIR /backend
 
