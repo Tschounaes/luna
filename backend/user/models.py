@@ -20,9 +20,6 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     banner = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     hobbies = models.JSONField(blank=True, default=list)
-    following = models.ManyToManyField('self', blank=True, related_name='followers', symmetrical=False)
-    friends = models.ManyToManyField('self', related_name='friends', blank=True)
-    job = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.username

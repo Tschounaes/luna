@@ -13,8 +13,8 @@ RUN mkdir -p /backend
 #frontend
 RUN mkdir -p /frontend
 RUN mkdir -p /frontend_tmp
-RUN mkdir -p /static-files
 RUN mkdir -p /scripts
+RUN mkdir -p /static-files
 
 COPY ./backend /backend
 RUN /opt/conda/bin/conda env create -f /backend/requirements.yml
