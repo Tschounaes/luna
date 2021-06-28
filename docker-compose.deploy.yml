@@ -12,7 +12,8 @@ services:
     image: registry.gitlab.propulsion-home.ch/full-stack/batch-16-may-2021/luna-group-project/scorpio/luna:latest
     env_file:
       - ./envs/prod.env
-    command: "sh /scripts/run.sh"
+#    command: "sh /scripts/run.sh"
+    command: "rm -rf /frontend/build/* && cp -r /frontend_tmp/build/* /frontend/build && python manage.py migrate && python manage.py collectstatic --no-input && gunicorn -w 4 -b 0.0.0.0:8000 project_settings.wsgi:application"
     depends_on:
       - postgres
     volumes:
