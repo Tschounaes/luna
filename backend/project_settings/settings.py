@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'corsheaders',
     # Models
     'user',
+    'restaurant',
+    'comment',
+    'review',
     # DOCUMENTATION
     'drf_yasg'
 ]
