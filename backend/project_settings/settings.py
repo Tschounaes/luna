@@ -30,7 +30,7 @@ DEBUG = ast.literal_eval(os.environ.get('DJANGO_DEBUG'))
 
 ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ORIGINS = [
-    "luna-scorpio.propulsion-learn.ch",
+    "https://luna-scorpio.propulsion-learn.ch",
     "http://localhost:3000",
     "http://localhost:8000",
     "http://0.0.0.0:8000",
@@ -66,7 +66,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'projectsettings.urls'
+ROOT_URLCONF = 'project_settings.urls'
 
 TEMPLATES = [
     {
@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'projectsettings.wsgi.application'
+WSGI_APPLICATION = 'project_settings.wsgi.application'
 
 
 # Database
