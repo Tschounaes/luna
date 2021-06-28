@@ -14,7 +14,7 @@ services:
     image: registry.gitlab.propulsion-home.ch/full-stack/batch-16-may-2021/luna-group-project/scorpio/luna:latest
     env_file:
       - ./envs/dev.env
-    command: "sh /scripts/dev.sh"
+    command: "sh /script/dev.sh"
     ports:
       - '8000:8000'
 #      - '4777:22'
