@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'restaurant',
     'comment',
     'review',
+    'registration',
     # DOCUMENTATION
     'drf_yasg'
 ]
