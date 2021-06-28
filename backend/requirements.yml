@@ -1,4 +1,4 @@
-name: motion_backend
+name: luna
 dependencies:
   - python=3.9.5
   - pip=21.1.2

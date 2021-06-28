@@ -18,9 +18,9 @@ RUN mkdir -p /scripts
 
 COPY ./backend /backend
 RUN /opt/conda/bin/conda env create -f /backend/requirements.yml
-ENV PATH /opt/conda/envs/motion_backend/bin:$PATH
+ENV PATH /opt/conda/envs/luna/bin:$PATH
 
-RUN echo "source activate motion_backend" >~/.bashrc
+RUN echo "source activate luna" >~/.bashrc
 
 COPY ./scripts /scripts
 RUN chmod +x ./scripts*

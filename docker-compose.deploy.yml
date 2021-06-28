@@ -9,7 +9,7 @@ services:
       - postgres_volume:/var/lib/postgresql/data
 
   backend:
-    image: registry.gitlab.propulsion-home.ch/full-stack/batch-16-may-2021/motion-backend/team-3/motion-final:latest
+    image: registry.gitlab.propulsion-home.ch/full-stack/batch-16-may-2021/luna-group-project/scorpio/luna:latest
     env_file:
       - ./envs/prod.env
     command: "sh /scripts/run.sh"
